@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firmware Upload</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Firmware</h1>
+        <form id="firmwareForm">
+            <label for="firmwareName">Firmware Name:</label>
+            <input type="text" id="firmwareName" name="firmwareName" required>
+
+            <label for="firmwareVersion">Firmware Version:</label>
+            <input type="number" step="0.1" id="firmwareVersion" name="firmwareVersion" required>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <label for="file">Upload .bin File:</label>
+            <input type="file" id="file" name="file" accept=".bin" required>
+
+            <button type="submit">Upload</button>
+        </form>
+        <div id="responseMessage"></div>
+    </div>
+    <script src="../js/script.js"></script>
+</body>
+</html>
