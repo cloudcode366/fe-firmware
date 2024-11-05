@@ -3,7 +3,7 @@ document.getElementById('firmwareForm').addEventListener('submit', function(even
 
     const formData = new FormData(this);
     
-    fetch('http://localhost:8080/api/v1/storage/upload', {
+    fetch('https://uploadfirmwareserver.onrender.com/api/v1/storage/upload', {
         method: 'POST',
         body: formData,
     })
