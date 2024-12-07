@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Firmware</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="toastContainer"></div>
+
+    <div class="container">
+        <h1>Upload Firmware</h1>
+        <form id="firmwareForm">
+            <!-- Existing form content -->
+            <label for="deviceSelect">Select Device:</label>
+            <select id="deviceSelect" name="deviceId" required>
+                <option value="" disabled selected>Loading devices...</option>
+            </select>
+    
+            <label for="firmwareName">Firmware Name:</label>
+            <input type="text" id="firmwareName" name="firmwareName" required>
+    
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+    
+            <label for="file">Upload .bin File:</label>
+            <input type="file" id="file" name="file" accept=".bin" required>
+    
+            <button id="uploadButton" type="submit">Upload</button>
+        </form>
+    
+        <!-- New section: Latest version firmware -->
+        <div id="latestFirmware">
+            <h2>Latest Version Firmware</h2>
+            <label for="deviceSelectFirmware">Select Device:</label>
+            <select id="deviceSelectFirmware" required>
+                <option value="" disabled selected>Loading devices...</option>
+            </select>
+            <button id="getLatestVersionButton">Get Latest Version</button>
+        </div>
+    
+        <div id="responseMessage"></div>
+        <a href="create-device.html" class="link">Go to Create Device</a>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+

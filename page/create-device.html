@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Device</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- <div class="toast"></div> -->
+    <div id="toastContainer"></div>
+
+    <div class="container">
+        <h1>Create Device</h1>
+        <form id="deviceForm">
+            <label for="deviceName">Device Name:</label>
+            <input type="text" id="deviceName" name="deviceName" required>
+            <button type="submit">Create Device</button>
+        </form>
+
+        <!-- Hiển thị ID thiết bị -->
+        <div id="deviceResponse">
+            <label for="deviceId">Device ID:</label>
+            <input type="text" id="deviceId" readonly>
+            <button id="copyButton">Copy ID</button>
+        </div>
+
+        <a href="upload-firmware.html" class="link">Go to Firmware Upload</a>
+    </div>
+    <script src="create-device.js"></script>
+</body>
+</html>
