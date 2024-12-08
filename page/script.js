@@ -188,7 +188,36 @@ void loop() {
                         showToast('Failed to copy source code: ' + err.message);
                     });
                 } else {
-                    showToast("No firmware version found.");
+                     // Tăng phiên bản firmware lên 1
+                     const newVersion = 0;
+
+                     // Tạo mã nguồn với các giá trị thay thế
+                     const sourceCode = `
+ #include <OTAWithServer.h>
+ #include <WifiSetup.h>
+ 
+ OTAWithServer ota("https://uploadfirmwareserver.onrender.com/api/v1/update/latest", ${newVersion});
+ String deviceId = "${selectedDeviceId}";
+ 
+ void setup() {
+   Serial.begin(115200);
+   delay(1000);
+   setupWiFi();
+   ota.setDeviceId(deviceId);
+   ota.begin();
+ } 
+ 
+ void loop() {
+   delay(1000);
+ }
+ `;
+ 
+                     // Sao chép vào clipboard
+                     navigator.clipboard.writeText(sourceCode).then(() => {
+                         showToast('Copy source code success');
+                     }).catch(err => {
+                         showToast('Failed to copy source code: ' + err.message);
+                     });
                 }
             } catch (e) {
                 showToast("Error: Invalid JSON response");
