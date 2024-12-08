@@ -46,9 +46,8 @@ function loadDevices() {
 document.addEventListener('DOMContentLoaded', loadDevices);
 
 // Xử lý sự kiện "Get Latest Version"
-document.getElementById('getLatestVersionButton').addEventListener('click', function () {
+document.getElementById('getLatestVersionBtn').addEventListener('click', function () {
     const selectedDeviceId = document.getElementById('deviceSelectFirmware').value;
-
     if (!selectedDeviceId) {
         showToast('Please select a device.');
         return;
@@ -125,6 +124,85 @@ document.getElementById('firmwareForm').addEventListener('submit', function (eve
         showToast('Upload failed: ' + error.message);
     });
 });
+// Xử lý sự kiện "Copy Example Code"
+document.getElementById('copyExampleCodeButton').addEventListener('click', function () {
+    // const selectedDeviceId = document.getElementById('deviceSelect').value;
+    const selectedDeviceId = document.getElementById('deviceSelectFirmware').value;
+
+    // console.log(selectedDeviceId);
+    if (!selectedDeviceId) {
+        showToast('Please select a device.');
+        return;
+    }
+
+    // const selectedDevice = document.querySelector(`#deviceSelectFirmware option[value='${selectedDeviceId}']`);
+    // const deviceName = selectedDevice ? selectedDevice.textContent : '';
+    
+    // Gửi yêu cầu để lấy phiên bản firmware mới nhất của thiết bị
+    fetch(`https://uploadfirmwareserver.onrender.com/api/v1/update/latest/${selectedDeviceId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch firmware version: ' + response.statusText);
+        }
+        return response.text(); // Lấy nội dung phiên bản firmware
+    })
+    .then(text => {
+        if (text) {
+            try {
+                const data = JSON.parse(text);
+                const firmwareVersion = data.firmwareVersion;
+                if (firmwareVersion) {
+                    // Tăng phiên bản firmware lên 1
+                    const newVersion = parseInt(firmwareVersion) + 1;
+
+                    // Tạo mã nguồn với các giá trị thay thế
+                    const sourceCode = `
+#include <OTAWithServer.h>
+#include <WifiSetup.h>
+
+OTAWithServer ota("https://uploadfirmwareserver.onrender.com/api/v1/update/latest", ${newVersion});
+String deviceId = "${selectedDeviceId}";
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000);
+  setupWiFi();
+  ota.setDeviceId(deviceId);
+  ota.begin();
+} 
+
+void loop() {
+  delay(1000);
+}
+`;
+
+                    // Sao chép vào clipboard
+                    navigator.clipboard.writeText(sourceCode).then(() => {
+                        showToast('Copy source code success');
+                    }).catch(err => {
+                        showToast('Failed to copy source code: ' + err.message);
+                    });
+                } else {
+                    showToast("No firmware version found.");
+                }
+            } catch (e) {
+                showToast("Error: Invalid JSON response");
+            }
+        } else {
+            showToast("No firmware available for this device.");
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        showToast("Failed to fetch firmware version: " + error.message);
+    });
+});
+
 
 // Hàm hiển thị toast
 function showToast(message) {
@@ -148,3 +226,5 @@ function showToast(message) {
         }, 300); // Chờ hiệu ứng ẩn hoàn tất
     }, 7000); // 2 giây
 }
+
+

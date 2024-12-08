@@ -300,3 +300,13 @@ button:hover {
 #firmwareVersionResult.error {
     color: red;
 }
+.button-container {
+    margin: 20px 0;
+}
+.button-container button {
+    padding: 10px 20px;
+    margin-right: 10px;
+}
+
+
+
